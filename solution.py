@@ -4,6 +4,7 @@ import sys
 import struct
 import time
 import select
+import statistics
 import binascii
 
 # Should use stdev
@@ -58,7 +59,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         data = struct.calcsize('d')
         timeSent = struct.unpack('d', recPacket[28:28 + data])[0]
         rtt = (timeReceived-timeSent) * 1000
-        return data, rtt, ttl
+        return (data, rtt, ttl)
 
 
         # Fetch the ICMP header from the IP packet
@@ -116,13 +117,37 @@ def ping(host, timeout=1):
     print("Pinging " + dest + " using Python:")
     print("")
     # Calculate vars values and return them
-    #  vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
+    packet_list = []
+    packet_min = 9999999999999999999999.00
+    packet_max = 0.00
+    packet_avg = 0.00
+    stdev_var = 0.00
+
+
     # Send ping requests to a server separated by approximately one second
-    for i in range(0, 4):
+    for i in range(0,4):
         delay = doOnePing(dest, timeout)
-        print(delay)
+
+        if float(delay[1]) < float(packet_min):
+            packet_min = delay[1]
+
+        if float(delay[1]) > float(packet_max):
+            packet_max = delay[1]
+
+        packet_list.append(float(delay[1]))
+
+        print("Reply from " + dest + ": bytes=" + str(delay[0]) + " time=" + str(delay[1]) + "ms TTL=" + str(delay[2]))
+
         time.sleep(1)  # one second
 
+    packet_avg = statistics.mean(packet_list)
+    stdev_var = statistics.pstdev(packet_list)
+    vars = [float(round(packet_min, 2)), float(round(packet_avg, 2)), float(round(packet_max, 2)),float(round(stdev_var, 2))]
+    print("min:" + str(packet_min) + " max:" + str(packet_max))
+    print(packet_list)
+    print(packet_avg)
+    print(stdev_var)
+    print(vars)
     return vars
 
 
