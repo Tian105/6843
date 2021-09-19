@@ -53,7 +53,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         ttl = ipHeader[5]
         
         icmpHeader = recPacket[20:28]
-        icmpType, icmpCode, icmpCksm, icmpID, icmpSequence = struct.unpack('bbHHh", icmpHeader)
+        icmpType, icmpCode, icmpCksm, icmpID, icmpSequence = struct.unpack("bbHHh", icmpHeader)
         datasize = struct.calcsize('d')
         timeSent = struct.unpack('d', recPacket[28:28 + data])[0]
         timeDiff = (timeReceived - timeSent)
