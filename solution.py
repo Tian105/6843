@@ -58,6 +58,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         data = struct.calcsize('d')
         timeSent = struct.unpack('d', recPacket[28:28 + data])[0]
         rtt = (timeReceived-timeSent) * 1000
+        return data, rtt, ttl
 
 
         # Fetch the ICMP header from the IP packet
@@ -126,4 +127,4 @@ def ping(host, timeout=1):
 
 
 if __name__ == '__main__':
-    ping("google.co.il")
+    ping("google.com")
