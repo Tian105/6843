@@ -130,9 +130,9 @@ def get_route(hostname):
                 # Fill in start
                     tracelist1.append(gethostbyaddr(str(addr[0]))[0])
                 # Fill in end
-                except herror:  # if the host does not provide a hostname
+                except herror:  # if the hostname does not provide a hostname
                 # Fill in start
-                    host = "hostname cant be found"
+                    hostname = "hostname cant be found"
                 # Fill in end
 
                 if types == 11:
@@ -144,7 +144,7 @@ def get_route(hostname):
                     tracelist1.insert(-1, str(ttl))
                     tracelist1.insert(-1, str(round((timeReceived - t)*1000)) + 'ms')
                     tracelist1.insert(-1, str(addr[0]))
-                    tracelist1.insert(-1, str(host))
+                    tracelist1.insert(-1, str(hostname))
                     tracelist2.append(tracelist1)
                     # Fill in end
                 elif types == 3:
@@ -156,7 +156,7 @@ def get_route(hostname):
                     tracelist1.insert(-1, str(ttl))
                     tracelist1.insert(-1, str(round((timeReceived - t) * 1000)) + 'ms')
                     tracelist1.insert(-1, str(addr[0]))
-                    tracelist1.insert(-1, str(host))
+                    tracelist1.insert(-1, str(hostname))
                     tracelist2.append(tracelist1)
                     # Fill in end
                 elif types == 0:
@@ -168,7 +168,7 @@ def get_route(hostname):
                     tracelist1.insert(-1, str(ttl))
                     tracelist1.insert(-1, str(round((timeReceived - t) * 1000)) + 'ms')
                     tracelist1.insert(-1, str(addr[0]))
-                    tracelist1.insert(-1, str(host))
+                    tracelist1.insert(-1, str(hostname))
                     tracelist2.append(tracelist1)
                     # Fill in end
                 else:
